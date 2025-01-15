@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { AppDataSource } from "../database/dataSource";
 import { Business } from "../database/entities/business";
 import { BusinessDto } from "./dtos/businessDto";
+import logger from "../utils/logger";
 
 const discoveryRoute: Router = Router();
 const defaultLimit: number = 10;
@@ -11,8 +12,10 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
         const { limit = defaultLimit, type, lat, long } = req.query;
 
         // TODO: we can add more validation (like min and max for lat and long)
-        if (!lat || !long) {
-            res.status(400).json({ error: 'lat and long are required' });
+        if (isNullOrUndefinedOrEmptyOrNotNumber(lat) || isNullOrUndefinedOrEmptyOrNotNumber(long)) {
+            // TODO: the error is not logged by morgan?
+            res.status(400).json({ error: 'lat and long are required and must be coordinates' });
+            return;
         }
 
         var userLimit = parseInt(limit as string, 10);
@@ -25,7 +28,9 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
 
         // TODO: we should use an enum
         if (type && type != "restaurant" && type != "coffee") {
+            // TODO: the error is not logged by morgan?
             res.status(400).json({ error: 'type is not valid' });
+            return;
         }
 
         // Construct the query with the Haversine formula
@@ -77,9 +82,14 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
         res.json(mappedBusinesses);
 
     } catch (error) {
-        // TODO: return error only for debug?
+        // TODO: log/return error only for debug?
+        logger.error(`Failed to retrieve businesses: ${error}`);
         res.status(500).json({ error: `Failed to retrieve businesses: ${error}` });
     }
 });
 
 export default discoveryRoute;
+
+function isNullOrUndefinedOrEmptyOrNotNumber(value: any): boolean {
+    return value === undefined || value === null || value === "" || isNaN(Number(value));
+}

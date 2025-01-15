@@ -1,7 +1,9 @@
-[ ] validate parameters
-[ ] add logging
+[x] validate parameters
+[x] add logging
 [ ] add migration
-[ ] add error handling
+  - tried to set it up but I had some problems, skipping it for now
+[x] add error handling
+  - [ ] automatically log errors from response (custom middleware)
 [ ] add environment variables
 [x] add some security stuff (remove useless headers, ...)
 [ ] add tests
