@@ -1,7 +1,12 @@
 import { createLogger, format, transports } from "winston";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const loggingLevel: string = process.env.NODE_ENV == "production" ? "warn" : "debug";
 
 const logger = createLogger({
-    level: "info", // TODO: should change if dev or prod
+    level: loggingLevel,
     format: format.combine(
         format.timestamp(),
         format.json()

@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { Business } from "./entities/business";
 import { DeepPartial } from "typeorm";
 import { AppDataSource } from "./dataSource";
+import logger from "../utils/logger";
 
 AppDataSource.initialize()
   .then(async () => {
@@ -33,9 +34,9 @@ AppDataSource.initialize()
       await businessRepository.save(newBusiness);
     }
 
-    console.log("Seed data added!");
+    logger.debug("Seed data added!");
     AppDataSource.destroy();
   })
   .catch((error) => {
-    console.error("Failed to seed data:", error);
+    logger.debug("Failed to seed data:", error);
   });

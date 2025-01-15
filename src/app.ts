@@ -3,6 +3,9 @@ import discoveryRoute from "./routes/discovery";
 import helmet from "helmet";
 import logger from "./utils/logger";
 import morgan from "morgan";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
