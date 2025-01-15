@@ -3,8 +3,9 @@
 [ ] add migration
 [ ] add error handling
 [ ] add environment variables
-[ ] add some security stuff (remove useless headers, ...)
+[x] add some security stuff (remove useless headers, ...)
 [ ] add tests
 [ ] add docker
 [ ] add authentication ?
-[ ] organize stuff around
+[x] organize stuff around
+[ ] use enum for business type

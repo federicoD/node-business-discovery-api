@@ -3,9 +3,9 @@ import { DataSource } from "typeorm";
 import { Business } from "./entities/business";
 
 export const AppDataSource = new DataSource({
-  type: "sqlite", // Replace with your database type if not SQLite
+  type: "sqlite",
   database: "database.sqlite",
   synchronize: true,
-  logging: true,
-  entities: [Business],
+  logging: true, // TODO: should be based on the environment
+  entities: [Business]
 });

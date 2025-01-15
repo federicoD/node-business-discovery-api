@@ -1,9 +1,10 @@
 import express from "express";
 import discoveryRoute from "./routes/discovery";
+import helmet from "helmet";
 
 const app = express();
 
-// Middleware
+app.use(helmet());
 app.use(express.json());
 
 // Routes

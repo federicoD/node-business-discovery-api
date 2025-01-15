@@ -1,20 +1,32 @@
 import { Router, Request, Response } from "express";
-import { AppDataSource } from "../data";
-import { Business } from "../entities/business";
+import { AppDataSource } from "../database/dataSource";
+import { Business } from "../database/entities/business";
 import { BusinessDto } from "./dtos/businessDto";
 
 const discoveryRoute: Router = Router();
+const defaultLimit: number = 10;
 
 discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
     try {
-        const { limit = 10, type, lat, long } = req.query;
+        const { limit = defaultLimit, type, lat, long } = req.query;
 
-        // TODO: add validation of params
-        // TODO: add some security checks
+        // TODO: we can add more validation (like min and max for lat and long)
+        if (!lat || !long) {
+            res.status(400).json({ error: 'lat and long are required' });
+        }
 
-        const userLimit = parseInt(limit as string, 10);
+        var userLimit = parseInt(limit as string, 10);
         const userLat = parseFloat(lat as string);
         const userLon = parseFloat(long as string);
+
+        if (userLimit < 0 || userLimit > 100) {
+            userLimit = defaultLimit;
+        }
+
+        // TODO: we should use an enum
+        if (type && type != "restaurant" && type != "coffee") {
+            res.status(400).json({ error: 'type is not valid' });
+        }
 
         // Construct the query with the Haversine formula
         const query = AppDataSource.getRepository(Business)
@@ -64,8 +76,9 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
 
         res.json(mappedBusinesses);
 
-    } catch (er) {
-        res.status(500).json({ error: `Failed to retrieve businesses: ${er}` });
+    } catch (error) {
+        // TODO: return error only for debug?
+        res.status(500).json({ error: `Failed to retrieve businesses: ${error}` });
     }
 });
 

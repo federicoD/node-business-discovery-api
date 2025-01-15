@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Business } from "./entities/business";
 import { DeepPartial } from "typeorm";
-import { AppDataSource } from "./data";
+import { AppDataSource } from "./dataSource";
 
 AppDataSource.initialize()
   .then(async () => {
