@@ -1,0 +1,10 @@
+[ ] validate parameters
+[ ] add logging
+[ ] add migration
+[ ] add error handling
+[ ] add environment variables
+[ ] add some security stuff (remove useless headers, ...)
+[ ] add tests
+[ ] add docker
+[ ] add authentication ?
+[ ] organize stuff around

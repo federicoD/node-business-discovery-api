@@ -1,5 +1,5 @@
 import express from "express";
-import routes from "./routes";
+import discoveryRoute from "./routes/discovery";
 
 const app = express();
 
@@ -7,6 +7,6 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use("/api", routes);
+app.use("/api", discoveryRoute);
 
 export default app;

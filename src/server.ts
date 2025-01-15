@@ -1,14 +1,10 @@
-import app from "./app";
-import dotenv from "dotenv";
 import "reflect-metadata";
-import { createConnection } from "typeorm";
-
-
-dotenv.config();
+import { AppDataSource } from "./data";
+import app from "./app";
 
 const PORT = process.env.PORT || 4321;
 
-createConnection()
+AppDataSource.initialize()
   .then(() => {
     console.log("Connected to the database!");
 
@@ -16,4 +12,6 @@ createConnection()
       console.log(`Server is running on http://localhost:${PORT}`);
     });
   })
-  .catch((error) => console.log("Database connection failed:", error));
+  .catch((error) => {
+    console.error("Database connection failed:", error);
+  });
