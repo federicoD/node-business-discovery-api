@@ -5,7 +5,7 @@
 [x] add error handling
   - [ ] automatically log errors from response (custom middleware)
 [x] add environment variables
-  - [ ] add it to .gitignore after Docker is up and running
+  - [x] add it to .gitignore
 [x] add some security stuff (remove useless headers, ...)
 [ ] add tests
 [ ] add docker
