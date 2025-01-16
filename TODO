@@ -12,4 +12,6 @@
 [ ] add authentication ?
 [x] organize stuff around
 [ ] use enum for business type
-[ ] README
+[x] README
+[ ] Rate limiting
+[ ] Linting
