@@ -8,7 +8,6 @@
   - [x] add it to .gitignore
 [x] add some security stuff (remove useless headers, ...)
 [x] add tests
-  - only integrations, missing units
 [ ] add docker
 [ ] add authentication ?
 [x] organize stuff around
