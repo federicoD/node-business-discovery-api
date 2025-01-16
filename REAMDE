@@ -1,6 +1,6 @@
 ## Intro
 
-This is my first nodejs/ts API and it has been done while learning how a newborn works, so not my proudest piece of work.
+This is my first nodejs/ts API and it has been done while learning how a newborn works as well, so not my proudest piece of work.
 
 I used the following libraries:
 - typeorm and sqlite
@@ -15,12 +15,16 @@ I used the following libraries:
 - DB Migrations
 - Authentication
 - Rate limiting
+- Linting
 
 ### Should be improved
 
 - use an enum for business type instead of a string
 - log response's body when status code is not successful (custom middleware)
 - use something different than ConsoleLogger when environment is not development
+- use something different than sqlite in development?
+- more tests
+- support for miles?
 
 ## Run the project
 
