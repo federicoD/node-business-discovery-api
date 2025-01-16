@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { Business } from "./entities/business";
-import logger from "../utils/logger";
 import dotenv from "dotenv";
 
 dotenv.config();

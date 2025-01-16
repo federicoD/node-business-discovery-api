@@ -1,8 +1,9 @@
 import { Router, Request, Response } from "express";
-import { AppDataSource } from "../database/dataSource";
 import { Business } from "../database/entities/business";
 import { BusinessDto } from "./dtos/businessDto";
 import logger from "../utils/logger";
+import { getDataSource } from "../utils/dataSourceProvider";
+import { isNullOrUndefinedOrEmptyOrNotNumber, roundToDecimals } from "../utils/utils";
 
 const discoveryRoute: Router = Router();
 const defaultLimit: number = 10;
@@ -14,7 +15,7 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
         // TODO: we can add more validation (like min and max for lat and long)
         if (isNullOrUndefinedOrEmptyOrNotNumber(lat) || isNullOrUndefinedOrEmptyOrNotNumber(long)) {
             // TODO: the error is not logged by morgan?
-            res.status(400).json({ error: 'lat and long are required and must be coordinates' });
+            res.status(400).json({ error: "lat and long are required and must be coordinates" });
             return;
         }
 
@@ -27,14 +28,14 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
         }
 
         // TODO: we should use an enum
-        if (type && type != "restaurant" && type != "coffee") {
+        if (type && type !== "restaurant" && type !== "coffee") {
             // TODO: the error is not logged by morgan?
             res.status(400).json({ error: 'type is not valid' });
             return;
         }
 
-        // Construct the query with the Haversine formula
-        const query = AppDataSource.getRepository(Business)
+        // Query using Haversine formula
+        const query = getDataSource().getRepository(Business)
             .createQueryBuilder("business")
             .select([
                 "business.id",
@@ -73,10 +74,10 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
 
         const mappedBusinesses: BusinessDto[] = businesses.map((business: any) => ({
             name: business.business_name,
-            latitude: parseFloat(business.business_latitude),
-            longitude: parseFloat(business.business_longitude),
+            latitude: business.business_latitude,
+            longitude: business.business_longitude,
             type: business.business_type,
-            distance: parseFloat(business.distance),
+            distance: roundToDecimals(business.distance, 6), // round to meter
         }));
 
         res.json(mappedBusinesses);
@@ -89,7 +90,3 @@ discoveryRoute.get("/discovery", async (req: Request, res: Response) => {
 });
 
 export default discoveryRoute;
-
-function isNullOrUndefinedOrEmptyOrNotNumber(value: any): boolean {
-    return value === undefined || value === null || value === "" || isNaN(Number(value));
-}

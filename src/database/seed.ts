@@ -1,12 +1,14 @@
 import "reflect-metadata";
 import { Business } from "./entities/business";
-import { DeepPartial } from "typeorm";
-import { AppDataSource } from "./dataSource";
+import { DataSource, DeepPartial } from "typeorm";
 import logger from "../utils/logger";
+import { getDataSource } from "../utils/dataSourceProvider";
 
-AppDataSource.initialize()
+const dataSource: DataSource = getDataSource();
+
+dataSource.initialize()
   .then(async () => {
-    const businessRepository = AppDataSource.getRepository(Business);
+    const businessRepository = dataSource.getRepository(Business);
 
     const businesses : DeepPartial<Business>[] = [
       {
@@ -35,7 +37,7 @@ AppDataSource.initialize()
     }
 
     logger.debug("Seed data added!");
-    AppDataSource.destroy();
+    dataSource.destroy();
   })
   .catch((error) => {
     logger.debug("Failed to seed data:", error);

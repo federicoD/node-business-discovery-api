@@ -7,8 +7,10 @@
 [x] add environment variables
   - [x] add it to .gitignore
 [x] add some security stuff (remove useless headers, ...)
-[ ] add tests
+[x] add tests
+  - only integrations, missing units
 [ ] add docker
 [ ] add authentication ?
 [x] organize stuff around
 [ ] use enum for business type
+[ ] README
